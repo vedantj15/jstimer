@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Application</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .timer-container {
+            text-align: center;
+        }
+
+        #timer {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-container">
+        <div id="timer">00:00</div>
+        <div class="button-container">
+            <button id="startButton">Start</button>
+            <button id="stopButton">Stop</button>
+            <button id="resetButton">Reset</button>
+        </div>
+    </div>
+    <script>
+        let timer;
+        let elapsedSeconds = 0;
+        let isRunning = false;
+
+        function updateTimerDisplay() {
+            const date = new Date(elapsedSeconds * 1000);
+            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+        }
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            if (!isRunning) {
+                isRunning = true;
+                timer = setInterval(() => {
+                    elapsedSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        });
+
+        document.getElementById('stopButton').addEventListener('click', function() {
+            if (isRunning) {
+                clearInterval(timer);
+                isRunning = false;
+            }
+        });
+
+        document.getElementById('resetButton').addEventListener('click', function() {
+            clearInterval(timer);
+            isRunning = false;
+            elapsedSeconds = 0;
+            updateTimerDisplay();
+        });
+
+        updateTimerDisplay();
+    </script>
+</body>
+</html>
